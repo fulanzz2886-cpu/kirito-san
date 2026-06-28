@@ -2,7 +2,7 @@
 if (command === '#menu') {
     // 1. Definisikan data user (sesuaikan dengan database bot kamu)
     const senderName = msg.pushName || 'User';
-    const userLimit = typeof limit !== 'undefined' ? limit : 999; 
+    const userLimit = typeof limit !== 'undefined' ? limit : 50; 
     const userLevel = typeof level !== 'undefined' ? level : 1;
 
     // 2. Susun susunan teks menu
@@ -10,14 +10,6 @@ if (command === '#menu') {
     menuText += `│ Nama    : ${senderName}\n`;
     menuText += `│ Limit   : ${userLimit}\n`;
     menuText += `│ Level   : ${userLevel}\n`;
-    menuText += `└─────────────────────────\n\n`;
-
-    // ─── 「 MENU LAINNYA 」
-    menuText += `┌─── 「 *MENU LAINNYA* 」\n`;
-    menuText += `│ ➲ #Language\n`;
-    menuText += `│ ➲ #MenuGrup\n`;
-    menuText += `│ ➲ #MenuGame\n`;
-    menuText += `│ ➲ #Download\n`;
     menuText += `└─────────────────────────\n\n`;
 
     // ─── 「 AI TOOLS 」
@@ -30,17 +22,11 @@ if (command === '#menu') {
     // ─── 「 STICKER MAKER 」
     menuText += `┌─── 「 *STICKER MAKER* 」\n`;
     menuText += `│ ➲ #Sticker\n`;
-    menuText += `│ ➲ #Toimage\n`;
+    menuText += `│ ➲ #Qc\n`;
+    menuText += `│ ➲ #Iqc\n`;
     menuText += `│ ➲ #StickerMeme\n`;
-    menuText += `└─────────────────────────\n\n`;
-
-    // ─── 「 AI PROCESSING 」
-    menuText += `┌─── 「 *AI PROCESSING* 」\n`;
-    menuText += `│ ➲ #Hd\n`;
-    menuText += `│ ➲ #Recolor\n`;
-    menuText += `│ ➲ #RemoveBG\n`;
-    menuText += `│ ➲ #Diffusion\n`;
-    menuText += `│ ➲ #Zimage\n`;
+    menuText += `│ ➲ #Brat\n`;
+    menuText += `│ ➲ #Bratvid\n`;
     menuText += `└─────────────────────────\n\n`;
 
     // ─── 「 ANIME & MANGA 」
@@ -56,14 +42,13 @@ if (command === '#menu') {
     menuText += `│ ➲ #Ongoing\n`;
     menuText += `└─────────────────────────\n\n`;
 
-    // ─── 「 UTILITAS/TOOLS 」
-    menuText += `┌─── 「 *UTILITAS/TOOLS* 」\n`;
-    menuText += `│ ➲ #MenuBrat\n`;
-    menuText += `│ ➲ #Math\n`;
-    menuText += `│ ➲ #Lyric\n`;
-    menuText += `│ ➲ #Brainly\n`;
-    menuText += `│ ➲ #Quotes\n`;
-    menuText += `│ ➲ #Translate\n`;
+    // ─── 「 TOOLS 」
+    menuText += `┌─── 「 *TOOLS* 」\n`;
+    menuText += `│ ➲ #Rvo\n`;
+    menuText += `│ ➲ #Hd\n`;
+    menuText += `│ ➲ #Remini\n`;
+    menuText += `│ ➲ #Recolor\n`;
+    menuText += `│ ➲ #Removebg\n`;
     menuText += `│ ➲ #ToMp3\n`;
     menuText += `└─────────────────────────\n\n`;
 
@@ -72,28 +57,56 @@ if (command === '#menu') {
     menuText += `│ ➲ #JadwalSholat\n`;
     menuText += `│ ➲ #InfoGempa\n`;
     menuText += `│ ➲ #BeritaBaru\n`;
-    menuText += `│ ➲ #InfoKurs\n`;
     menuText += `│ ➲ #Crypto\n`;
     menuText += `│ ➲ #Cuaca\n`;
     menuText += `└─────────────────────────\n\n`;
 
     // ─── 「 MESIN PENCARI 」
     menuText += `┌─── 「 *MESIN PENCARI* 」\n`;
-    menuText += `│ ➲ #YtSearch\n`;
+    menuText += `│ ➲ #Lyrics\n`;
     menuText += `│ ➲ #Lens\n`;
     menuText += `│ ➲ #CariLagu\n`;
     menuText += `│ ➲ #Image\n`;
-    menuText += `│ ➲ #Fact\n`;
+    menuText += `│ ➲ #Quotes\n`;
+    menuText += `│ ➲ #Pinterest\n`;
     menuText += `└─────────────────────────\n\n`;
 
     // ─── 「 MENU BOT 」
     menuText += `┌─── 「 *MENU BOT* 」\n`;
     menuText += `│ ➲ #Setclub\n`;
     menuText += `│ ➲ #Shop\n`;
-    menuText += `│ ➲ #Delete\n`;
     menuText += `│ ➲ #Level\n`;
-    menuText += `│ ➲ #TopCoin\n`;
     menuText += `│ ➲ #SetName\n`;
     menuText += `│ ➲ #Owner\n`;
     menuText += `└─────────────────────────\n\n`;
-    
+
+// ─── 「 MENU GRUP 」
+    menuText += `┌─── 「 *MENU GRUP* 」\n`;
+    menuText += `│ ➲ #Open\n`;
+    menuText += `│ ➲ #Close\n`;
+    menuText += `│ ➲ #Kick\n`;
+    menuText += `│ ➲ #Hidetag\n`;
+    menuText += `│ ➲ #Topchat\n`;
+    menuText += `│ ➲ #Delete\n`;
+    menuText += `│ ➲ #Topcoin\n`;
+    menuText += `│ ➲ #Linkgrup\n`;
+    menuText += `│ ➲ #Afk\n`;
+    menuText += `└─────────────────────────\n\n`;
+
+// ─── 「 DOWNLOAD 」
+    menuText += `┌─── 「 *DOWNLOAD* 」\n`;
+    menuText += `│ ➲ #Tiktok\n`;
+    menuText += `│ ➲ #Youtube\n`;
+    menuText += `│ ➲ #Facebook\n`;
+    menuText += `│ ➲ #Instagram\n`;
+    menuText += `│ ➲ #Play\n`;
+    menuText += `└─────────────────────────\n\n`;
+
+// ─── 「 FUN 」
+    menuText += `┌─── 「 *FUN* 」\n`;
+    menuText += `│ ➲ #Mancing\n`;
+    menuText += `│ ➲ #Berburu\n`;
+    menuText += `│ ➲ #Tebakkata\n`;
+    menuText += `│ ➲ #Susunkata\n`;
+    menuText += `│ ➲ #Tic Tac Toe\n`;
+    menuText += `└─────────────────────────\n\n`;
