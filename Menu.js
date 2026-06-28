@@ -50,6 +50,7 @@ if (command === '#menu') {
     menuText += `│ ➲ #Recolor\n`;
     menuText += `│ ➲ #Removebg\n`;
     menuText += `│ ➲ #ToMp3\n`;
+    menuText += `│ ➲ #Toimage\n`;
     menuText += `└─────────────────────────\n\n`;
 
     // ─── 「 INFORMASI 」
@@ -99,7 +100,7 @@ if (command === '#menu') {
     menuText += `│ ➲ #Youtube\n`;
     menuText += `│ ➲ #Facebook\n`;
     menuText += `│ ➲ #Instagram\n`;
-    menuText += `│ ➲ #Play\n`;
+    menuText += `│ ➲ #Spotify\n`;
     menuText += `└─────────────────────────\n\n`;
 
 // ─── 「 FUN 」
