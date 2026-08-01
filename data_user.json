@@ -1,0 +1,35 @@
+{
+  "185654793240769": {
+    "nama": "",
+    "gender": "-",
+    "sleep": null,
+    "sleepNotified": false,
+    "level": 1,
+    "xp": 0,
+    "gabung": 1785496455325
+  },
+  "62654793240769": {
+    "terdaftar": false,
+    "nama": "",
+    "umur": null,
+    "gender": "-",
+    "hobi": "",
+    "status": "ᴍᴇᴍʙᴇʀ",
+    "money": 0,
+    "point": 0,
+    "limit": 50,
+    "level": 1,
+    "xp": 0,
+    "afk": 0,
+    "premium": false,
+    "pasangan": null,
+    "nikah": null,
+    "absen": null,
+    "harian": null,
+    "spin": 3,
+    "undian": 1,
+    "sleep": null,
+    "sleepNotified": false,
+    "gabung": 1785507572282
+  }
+}
