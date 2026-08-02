@@ -31,5 +31,30 @@
     "sleep": null,
     "sleepNotified": false,
     "gabung": 1785507572282
+  },
+  "6281952716944": {
+    "terdaftar": false,
+    "nama": "",
+    "umur": null,
+    "gender": "-",
+    "hobi": "",
+    "status": "",
+    "role": "ᴍᴇᴍʙᴇʀ",
+    "money": 5000,
+    "point": 100,
+    "limit": 100,
+    "level": 1,
+    "xp": 0,
+    "afk": 0,
+    "premium": false,
+    "pasangan": null,
+    "nikah": null,
+    "absen": null,
+    "harian": null,
+    "spin": 3,
+    "undian": 1,
+    "sleep": null,
+    "sleepNotified": false,
+    "gabung": 1785637100295
   }
 }

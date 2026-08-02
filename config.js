@@ -1,8 +1,9 @@
 const NAMA_BOT = "ʏᴜᴜᴋɪ ꜱᴏʀɪᴍᴀᴄʜɪ";
 const NAMA_OWNER = "ᴅɪᴍᴢᴢ";
 
-const NOMOR_BOT = "6281952716944";
-const NOMOR_OWNER = "6281952716944";
+const NOMOR_DEFAULT = "6281952716944";
+const NOMOR_BOT = NOMOR_DEFAULT;
+const NOMOR_OWNER = NOMOR_DEFAULT;
 
 const MAP_SMALL_CAPS = {
   a: "ᴀ",
@@ -180,6 +181,7 @@ module.exports = {
   namaOwner: NAMA_OWNER,
   nomorBot: NOMOR_BOT,
   nomorOwner: NOMOR_OWNER,
+  pairingNumber: NOMOR_DEFAULT,
 
   prefixes: ["#", ".", "/", "!"],
   botMode: "private",

@@ -39,10 +39,13 @@ async function mulaiBot() {
     if (p.trim() === '2') {
       modeAuth = 'pairing';
       tampilQR = false;
-      while (!nomorPairing) {
-        const i = await tanya('Nomor WA bot (08xx / 62xx): ');
-        const n = normNomor(i);
-        n.length >= 10 ? nomorPairing = n : console.log('❌ Nomor tidak valid');
+      nomorPairing = normNomor(config.pairingNumber || config.botNumber || config.ownerNumber || '6281952716944');
+      if (!nomorPairing) {
+        while (!nomorPairing) {
+          const i = await tanya('Nomor WA bot (08xx / 62xx): ');
+          const n = normNomor(i);
+          n.length >= 10 ? nomorPairing = n : console.log('❌ Nomor tidak valid');
+        }
       }
       console.log(`\n📱 Mode Pairing Code | Nomor: ${nomorPairing}`);
     } else {

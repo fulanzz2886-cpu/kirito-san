@@ -358,12 +358,213 @@ ${rank.cur.e} ʟᴠ ${u.level} · ${rank.cur.n}
 
   rank: async({pengirim,balas})=>{
     const u=getUser(normNomor(pengirim));
+    if(!u.terdaftar)return balas('⚠️ ᴅᴀꜰᴛᴀʀ ᴅᴜʟᴜ: .ᴅᴀꜰᴛᴀʀ');
     const r=fitur._getRankInfo(u.level);
     const L=20;
     const isi=Math.round(L*(r.prog/100));
     const bar='█'.repeat(isi)+'░'.repeat(L-isi);
     const G='═';
-    let o=`${r.cur.e} ʏᴏᴜʀ ᴄᴜʀʀᴇɴᴛ ʀᴀɴᴋ\n╔${G.repeat(26)}╗\n   ${r.cur.n.toUpperCase()}\n╚${G.repeat(26)}╝\n\n👤 ᴜꜱᴇʀ    : ${u.nama||'User'}\n📊 ʟᴇᴠᴇʟ   : ${r.lv}\n⭐ ᴇxᴘ     : ${u.xp||0} / ${r.lv*200}\n\n📈 ᴘʀᴏɢʀᴇꜱꜱ\n┌${G.repeat(L+2)}┐\n│ ${bar} │ ${r.prog}%\n└${G.repeat(L+2)}┘\n`;
+    let o=`${r.cur.e} ʏᴏᴜʀ ᴄᴜʀʀᴇɴᴛ ʀᴀɴᴋ
+╔${G.repeat(26)}╗
+   ${r.cur.n.toUpperCase()}
+╚${G.repeat(26)}╝
+
+👤 ᴜꜱᴇʀ    : ${u.nama||'-'}
+📊 ʟᴇᴠᴇʟ   : ${r.lv}
+⭐ ᴇxᴘ     : ${u.xp||0} / ${r.lv*200}
+
+📈 ᴘʀᴏɢʀᴇꜱꜱ
+┌${G.repeat(L+2)}┐
+│ ${bar} │ ${r.prog}%
+└${G.repeat(L+2)}┘
+`;
     if(r.isMax){
-      o+=`\n🔱 ꜱᴜᴅᴀʜ ᴍᴇɴᴄᴀᴘ
+      o+=`\n🔱 ꜱᴜᴅᴀʜ ᴍᴇɴᴄᴀᴘᴀɪ ʀᴀɴᴋ ᴛᴇʀᴛɪɴɢɢɪ!
+✨ ᴇʟɪᴛᴇ ᴍᴀꜱᴛᴇʀ — ᴘᴜɴᴄᴀᴋ ᴘʀᴇꜱᴛᴀꜱɪ ✨`;
+    }else{
+      o+=`
+🎯 ʀᴀɴᴋ ꜱᴇʟᴀɴᴊᴜᴛɴʏᴀ : ${r.nx.e} ${r.nx.n.toUpperCase()}
+📉 ꜱɪꜱᴀ ʟᴇᴠᴇʟ       : ${r.sisa} ʟᴠ ʟᴀɢɪ
+💡 ᴋᴇᴛɪᴋ .ᴀʙꜱᴇɴ ꜱᴇᴛɪᴀᴘ ʜᴀʀɪ ᴜɴᴛᴜᴋ ᴄᴇᴘᴀᴛ ɴᴀɪᴋ!`;
+    }
+    balas(o);
+  },
+
+  toprank: async({balas})=>{
+    const t=fitur._urut('xp').slice(0,10);let i=1,o=`🏆 ᴛᴏᴘ 10 ʀᴀɴᴋ ɢʟᴏʙᴀʟ\n╔${garis(24)}╗\n`;
+    t.forEach(([k,v])=>{
+      const r=fitur._getRankInfo(v.level);
+      o+=`${i++}. ${r.cur.e} ${v.nama||'-'}\n     ʟᴠ ${v.level} · ${r.cur.n}\n`;
+    });
+    o+=`╚${garis(24)}╝\n\n💡 ᴋᴇᴛɪᴋ .ʀᴀɴᴋ ᴜɴᴛᴜᴋ ʟɪʜᴀᴛ ᴘᴏꜱɪꜱɪ ᴋᴀᴍᴜ`;
+    balas(o);
+  },
+  topglobal: async(d)=>await fitur.toprank(d),
+  localrank: async(d)=>await fitur.toprank(d),
+  toplokal: async(d)=>await fitur.toprank(d),
+
+  harian: async({pengirim,balas})=>{
+    const nmr=normNomor(pengirim),u=getUser(nmr);if(!u.terdaftar)return balas('⚠️ .ᴅᴀꜰᴛᴀʀ');
+    const tgl=new Date().toDateString();
+    if(u.harian===tgl)return balas('⚠️ ꜱᴜᴅᴀʜ ᴄʟᴀɪᴍ ʜᴀʀɪ ɪɴɪ!');
+    const m=5000+Math.floor(Math.random()*10000),l=10+Math.floor(Math.random()*20);
+    saveUser(nmr,{harian:tgl,money:u.money+m,limit:u.limit+l,point:u.point+25});
+    balas(`📅 ʜᴀʀɪᴀɴ ᴅɪᴄʟᴀɪᴍ! 🎉
++ ʀᴘ ${angkaRapi(m)}
++ 🎟️ ${l} ʟɪᴍɪᴛ
++ ⭐ 25 ᴘᴏɪɴᴛ`);
+  },
+  claim: async(d)=>await fitur.harian(d),
+
+  absen: async({pengirim,balas})=>{
+    const nmr=normNomor(pengirim),u=getUser(nmr);if(!u.terdaftar)return balas('⚠️ .ᴅᴀꜰᴛᴀʀ');
+    const tgl=new Date().toDateString();
+    if(u.absen===tgl)return balas('⚠️ ꜱᴜᴅᴀʜ ᴀʙꜱᴇɴ!');
+    const xp=25+Math.floor(Math.random()*50),p=50+Math.floor(Math.random()*100);
+    let lv=u.level,xp2=u.xp+xp;while(xp2>=lv*200){xp2-=lv*200;lv++;}
+    saveUser(nmr,{absen:tgl,xp:xp2,level:lv,point:u.point+p,money:u.money+1000});
+    balas(`✅ ᴀʙꜱᴇɴ ʙᴇʀʜᴀꜱɪʟ!
++ ⭐ ${xp} ᴇxᴘ
++ ⭐ ${p} ᴘᴏɪɴᴛ
++ 💰 1.000 ᴍᴏɴᴇʏ
+${lv>u.level?`\n🎉 ʟᴇᴠᴇʟ ᴜᴘ! ʟᴠ ${lv}`:''}`);
+  },
+
+  _daftarBarang:()=>{
+    const B=[];
+    B.push({id:'limit',kat:'ᴛᴏᴋᴏ ᴜᴛᴀᴍᴀ',nama:'ʟɪᴍɪᴛ x50',   harga:990000,field:'limit',nilai:50,icon:'🎟️',desc:'ᴘᴀʟɪɴɢ ᴍᴀʜᴀʟ · ᴋᴜᴏᴛᴀ ꜰɪᴛᴜʀ'});
+    B.push({id:'point',kat:'ᴛᴏᴋᴏ ᴜᴛᴀᴍᴀ',nama:'ᴘᴏɪɴᴛ x100', harga:3000,  field:'point',nilai:100,icon:'⭐'});
+    B.push({id:'xp',   kat:'ᴛᴏᴋᴏ ᴜᴛᴀᴍᴀ',nama:'ᴇxᴘ x100',   harga:4000,  field:'xp',   nilai:100,icon:'⚡'});
+    B.push({id:'pakan', kat:'ʙᴀʜᴀɴ',      nama:'ᴘᴀᴋᴀɴ x10',  harga:2000,  inv:'pakan', nilai:10, icon:'🌾'});
+    B.push({id:'daging',kat:'ʙᴀʜᴀɴ',      nama:'ᴅᴀɢɪɴɢ x10', harga:8000,  inv:'daging',nilai:10, icon:'🥩'});
+    B.push({id:'steak', kat:'ʙᴀʜᴀɴ',      nama:'ꜱᴛᴇᴀᴋ x5',   harga:25000, inv:'steak', nilai:5,  icon:'🍖'});
+    B.push({id:'heal',  kat:'ᴘᴏᴛɪᴏɴ',     nama:'ʜᴇᴀʟ ꜱ x10',harga:5000,  inv:'heal',  nilai:10, icon:'🧪'});
+    B.push({id:'healm', kat:'ᴘᴏᴛɪᴏɴ',     nama:'ʜᴇᴀʟ ᴍ x5', harga:12000, inv:'healm', nilai:5,  icon:'🧪'});
+    B.push({id:'heall', kat:'ᴘᴏᴛɪᴏɴ',     nama:'ʜᴇᴀʟ ʟ x3', harga:25000, inv:'heall', nilai:3,  icon:'🧪'});
+    B.push({id:'healxl',kat:'ᴘᴏᴛɪᴏɴ',     nama:'ʜᴇᴀʟ xʟ x1',harga:60000, inv:'healxl',nilai:1,  icon:'🧪'});
+    B.push({id:'mana',  kat:'ᴘᴏᴛɪᴏɴ',     nama:'ᴍᴀɴᴀ x5',   harga:15000, inv:'mana',  nilai:5,  icon:'💧'});
+    B.push({id:'str',   kat:'ᴘᴏᴛɪᴏɴ',     nama:'ꜱᴛʀᴇɴɢᴛʜ x3',harga:35000,inv:'str',   nilai:3,  icon:'💪'});
+    B.push({id:'def',   kat:'ᴘᴏᴛɪᴏɴ',     nama:'ᴅᴇꜰᴇɴꜱᴇ x3',harga:35000,inv:'def',   nilai:3,  icon:'🛡️'});
+    B.push({id:'spd',   kat:'ᴘᴏᴛɪᴏɴ',     nama:'ꜱᴘᴇᴇᴅ x3',  harga:30000, inv:'spd',   nilai:3,  icon:'👟'});
+    B.push({id:'revive',kat:'ᴘᴏᴛɪᴏɴ',     nama:'ʀᴇᴠɪᴠᴇ x1', harga:120000,inv:'revive',nilai:1, icon:'✨'});
+    for(let i=1;i<=50;i++){
+      B.push({id:`pancing${i}`,kat:'🎣 ᴘᴀɴᴄɪɴɢ',nama:`ᴘᴀɴᴄɪɴɢ ʟᴠ ${i}`,harga:hargaAlat(i),inv:'pancing',nilai:i,icon:'🎣',maxLv:i});
+      B.push({id:`pedang${i}`, kat:'⚔️ ᴘᴇᴅᴀɴɢ', nama:`ᴘᴇᴅᴀɴɢ ʟᴠ ${i}`, harga:hargaAlat(i),inv:'pedang', nilai:i,icon:'⚔️',maxLv:i});
+      B.push({id:`panah${i}`,  kat:'🏹 ᴘᴀɴᴀʜ',  nama:`ᴘᴀɴᴀʜ ʟᴠ ${i}`,  harga:hargaAlat(i),inv:'panah',  nilai:i,icon:'🏹',maxLv:i});
+    }
+    return B;
+  },
+
+  buy: async({pengirim,arg,balas})=>{
+    const nmr=normNomor(pengirim),u=getUser(nmr);if(!u.terdaftar)return balas('⚠️ .ᴅᴀꜰᴛᴀʀ');
+    const B=fitur._daftarBarang();
+    const a=(arg||'').trim().toLowerCase();
+    if(!a){
+      const kat={};B.forEach(b=>{kat[b.kat]=kat[b.kat]||[];kat[b.kat].push(b);});
+      let o=`🛒 ᴛᴏᴋᴏ ʀᴘɢ · ꜱᴇᴍᴜᴀ ʙᴀʀᴀɴɢ
+╔${garis(24)}╗
+   ʟɪᴍɪᴛ x50 = ᴛᴇʀᴍᴀʜᴀʟ
+╚${garis(24)}╝
+
+💡 ᴄᴀʀᴀ:
+  .ʙᴜʏ <ᴋᴀᴛᴇɢᴏʀɪ>
+  .ʙᴜʏ <ɪᴅ_ʙᴀʀᴀɴɢ>
+
+📂 ᴋᴀᴛᴇɢᴏʀɪ:
+`;
+      Object.keys(kat).slice(0,8).forEach(k=>o+=`  • .ʙᴜʏ ${k.toLowerCase().replace(/[^a-z]/g,'')} → ${k}\n`);
+      o+=`
+🎟️ ᴛᴏᴋᴏ ᴜᴛᴀᴍᴀ:
+  1. ʟɪᴍɪᴛ x50   → ʀᴘ 990.000 (ᴛᴇʀᴍᴀʜᴀʟ)
+  2. ᴘᴏɪɴᴛ x100 → ʀᴘ 3.000
+  3. ᴇxᴘ x100   → ʀᴘ 4.000
+
+⚠️ ᴜɴᴛᴜᴋ ᴀʟᴀᴛ ʟᴠ 1-50: .ʙᴜʏ ᴘᴀɴᴄɪɴɢ 25`;
+      return balas(o);
+    }
+    if(['pancing','pedang','panah'].includes(a)){
+      let o=`🛒 ᴅᴀꜰᴛᴀʀ ${a.toUpperCase()} ʟᴠ 1-50\n╔${garis(26)}╗\n`;
+      for(let i=1;i<=50;i++)o+=`${String(i).padStart(2,' ')}. ʟᴠ ${String(i).padEnd(2,' ')} → ʀᴘ ${angkaRapi(hargaAlat(i))}  (.ʙᴜʏ ${a}${i})\n`;
+      o+=`╚${garis(26)}╝\n\n💡 ᴄᴏɴᴛᴏʜ: .ʙᴜʏ ${a}25`;
+      return balas(o);
+    }
+    if(['bahan','potion','potions','pokeball'].includes(a)||['pakan','daging','steak','heal','mana','str','def','spd','revive'].includes(a)){
+      const list=B.filter(b=>b.kat.toLowerCase().includes(a)||(b.inv||'').toLowerCase()===a).slice(0,20);
+      let o=`🛒 ${a.toUpperCase()}\n╔${garis(26)}╗\n`;
+      list.forEach(b=>o+=`• ${b.icon} ${b.nama.padEnd(14)} → ʀᴘ ${angkaRapi(b.harga).padStart(9)}  (.ʙᴜʏ ${b.id})\n`);
+      o+=`╚${garis(26)}╝`;
+      return balas(o);
+    }
+    const rxAlat=/^(pancing|pedang|panah)\s*(\d{1,2})$/i.exec(a);
+    let id=a;
+    if(rxAlat)id=`${rxAlat[1].toLowerCase()}${parseInt(rxAlat[2])}`;
+    const br=B.find(x=>x.id===id);
+    if(!br)return balas(`❌ ʙᴀʀᴀɴɢ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ!\n💡 ᴄᴏʙᴀ: .ʙᴜʏ ᴘᴀɴᴄɪɴɢ 10`);
+    if(br.maxLv){
+      const inv=getInv(nmr);
+      if((inv[br.inv]||0)>=br.maxLv)return balas(`⚠️ ᴋᴀᴍᴜ ᴜᴅᴀʜ ᴘᴜɴʏᴀ ${br.nama}!`);
+    }
+    if(u.money<br.harga)return balas(`❌ ᴜᴀɴɢ ᴋᴜʀᴀɴɢ!\n${br.icon} ${br.nama}\nʜᴀʀɢᴀ: ʀᴘ ${angkaRapi(br.harga)}\nᴋᴀᴍᴜ: ʀᴘ ${angkaRapi(u.money)}`);
+    const ob={money:u.money-br.harga};
+    if(br.field)ob[br.field]=(u[br.field]||0)+br.nilai;
+    saveUser(nmr,ob);
+    if(br.inv){
+      const inv=getInv(nmr);
+      inv[br.inv]=br.maxLv?br.nilai:Math.max(inv[br.inv]||0,0)+br.nilai;
+      saveInv(nmr,inv);
+    }
+    balas(`✅ ʙᴇʟɪ ʙᴇʀʜᴀꜱɪʟ!
+${br.icon} ${br.nama}
+- ʀᴘ ${angkaRapi(br.harga)}
+${br.field?`+ ${br.nilai} ${br.field.toUpperCase()}`:''}${br.inv?`\n+ ᴍᴀꜱᴜᴋ ɪɴᴠᴇɴᴛᴏʀʏ`:''}`);
+  },
+
+  gift: async({pengirim,balas})=>{
+    const u=getUser(normNomor(pengirim));if(!u.terdaftar)return balas('⚠️ .ᴅᴀꜰᴛᴀʀ');
+    const hadiah=['💎 500 ᴅɪᴀᴍᴏɴᴅ','💰 10.000 ᴍᴏɴᴇʏ','🎟️ 100 ʟɪᴍɪᴛ','⭐ 500 ᴘᴏɪɴᴛ','⚡ 200 ᴇxᴘ'];
+    balas(`🎁 ɢɪꜰᴛ ʀᴀɴᴅᴏᴍ: ${hadiah[Math.floor(Math.random()*hadiah.length)]}`);
+  },
+  kirimhadiah: async({pengirim,arg,balas})=>{
+    const nmr=normNomor(pengirim),u=getUser(nmr);if(!u.terdaftar)return balas('⚠️ .ᴅᴀꜰᴛᴀʀ');
+    const rx=/^(\d+)\s+(.+)$/.exec(arg.trim());
+    if(!rx)return balas('💡 .ᴋɪʀɪᴍʜᴀᴅɪᴀʜ 62819xxx ʜᴀᴅɪᴀʜɴʏᴀ');
+    const t=normNomor(rx[1]);if(!getUser(t).terdaftar)return balas('❌ ᴛᴜᴊᴜᴀɴ ʙᴇʟᴜᴍ ᴅᴀꜰᴛᴀʀ!');
+    balas(`🎁 ʜᴀᴅɪᴀʜ ᴛᴇʀᴋɪʀɪᴍ!\nᴋᴇ: ${getUser(t).nama}\nɪꜱɪ: ${rx[2]}`);
+  },
+
+  spin: async({pengirim,balas})=>{
+    const nmr=normNomor(pengirim),u=getUser(nmr);if(!u.terdaftar)return balas('⚠️ .ᴅᴀꜰᴛᴀʀ');
+    if(u.spin<=0)return balas('❌ ᴋᴇꜱᴇᴍᴘᴀᴛᴀɴ ʜᴀʙɪꜱ! ʙᴇꜱᴏᴋ ʟᴀɢɪ ʏᴀ~');
+    const r=Math.random(),h=r<.3?[1000,'ᴍᴏɴᴇʏ']:r<.6?[50,'ᴘᴏɪɴᴛ']:r<.85?[25,'limit']:[150,'xp'];
+    const ob={spin:u.spin-1};ob[h[1]]=(u[h[1]]||0)+h[0];saveUser(nmr,ob);
+    balas(`🎰 ꜱᴘɪɴ!
+┌  ʜᴀꜱɪʟ : +${h[0]} ${h[1].toUpperCase()}
+└  ꜱɪꜱᴀ  : ${u.spin-1} x`);
+  },
+  undian: async({pengirim,balas})=>{
+    const nmr=normNomor(pengirim),u=getUser(nmr);if(!u.terdaftar)return balas('⚠️ .ᴅᴀꜰᴛᴀʀ');
+    if(u.undian<=0)return balas('❌ ᴋᴜᴏᴛᴀ ᴜɴᴅɪᴀɴ ʜᴀʙɪꜱ!');
+    const jp=['GRAND PRIZE 👑 1JT','HADIAH 2 💎 100K','HADIAH 3 🎟️ 500','HADIAH 4 ⭐ 1000','ZONK 🗿'];
+    const r=Math.random()<.05?0:r<.15?1:r<.35?2:r<.6?3:4;
+    saveUser(nmr,{undian:u.undian-1,money:u.money+(r===0?1000000:r===1?100000:0)});
+    balas(`🎟️ ᴜɴᴅɪᴀɴ #${2-u.undian}
+🏆 ʜᴀꜱɪʟ: ${jp[r]}
+${r===0?`\n💰 + ʀᴘ 1.000.000! 🎉🎉🎉`:''}`);
+  }
+};
+
+async function cekPerintahUser(data) {
+  const { cmd } = data;
+  if (!cmd || !fitur[cmd]) return false;
+  await fitur[cmd](data);
+  return true;
+}
+
+Object.assign(DAFTAR_FITUR_USER, Object.keys(fitur));
+module.exports = {
+  normNomor, baca, tulis, getUser, getInv, saveInv, saveUser,
+  tungguDaftar, parseDaftar, cekReplyDaftar, ambilPP,
+  cekPerintahUser, DAFTAR_FITUR_USER, hargaAlat,
+  FILE_DATA, FILE_TUNGGU, FILE_INV, PP_DEFAULT
+};
 

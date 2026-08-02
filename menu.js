@@ -524,5 +524,26 @@ KETIK ${pre}MENU UNTUK MELIHAT DAFTAR MENU YANG ADA.
   }
 }
 
+function hitungTotalSemuaFitur() {
+  const detail = {
+    bot: 16,
+    anime: 18,
+    tools: 21,
+    grup: 39,
+    info: 18,
+    download: 19,
+    cari: 16,
+    fun: 55,
+    operator: 25,
+    game: 47,
+    rpg: 26,
+    stiker: 14,
+    user: 27,
+    random: 39
+  };
+  const total = Object.values(detail).reduce((sum, v) => sum + v, 0);
+  return { total, detail };
+}
+
 module.exports = { tampilkanSubMenu, hitungTotalSemuaFitur, sc };
 
